@@ -39,12 +39,6 @@
         .action-button:hover {
             background: #2ea043;
         }
-        #viewer-frame {
-            width: 100vw;
-            height: 100vh;
-            border: none;
-            display: none;
-        }
         #loading-overlay {
             position: fixed;
             inset: 0;
@@ -70,10 +64,8 @@
 
     <div id="loading-overlay">
         <div class="progress-circle"></div>
-        <p class="mt-4 text-sm text-gray-400 font-medium tracking-widest text-center px-4 uppercase">Connecting...</p>
+        <p class="mt-4 text-sm text-gray-400 font-medium tracking-widest uppercase">Connecting...</p>
     </div>
-
-    <iframe id="viewer-frame"></iframe>
 
     <div id="builder-view" class="min-h-screen flex items-center justify-center p-4">
         <div class="max-w-md w-full">
@@ -191,22 +183,10 @@
                     document.getElementById('builder-view').style.display = 'none';
                     document.getElementById('loading-overlay').style.display = 'flex';
                     
-                    const frame = document.getElementById('viewer-frame');
-                    frame.src = target;
-                    
-                    frame.onload = function() {
-                        document.getElementById('loading-overlay').style.display = 'none';
-                        frame.style.display = 'block';
-                    };
-                    
+                    // Small delay to show the spinner before swapping the tab content
                     setTimeout(() => {
-                        if (frame.style.display === 'none') {
-                           document.getElementById('loading-overlay').innerHTML = `
-                             <p class="text-gray-400 text-sm px-6 text-center">Unable to open the requested page in this view.</p>
-                             <button onclick="location.reload()" class="mt-6 px-4 py-2 bg-gray-800 rounded text-xs text-white">Return</button>
-                           `;
-                        }
-                    }, 8000);
+                        window.location.replace(target);
+                    }, 800);
                 }
             }
         };
